@@ -1,0 +1,30 @@
+#yaml 测试用例
+#登录模块--6个----列表套字典
+#列表：里面有6个元素--每一个元素就是一个用例
+#字典：一个用例里面：一些详情
+- #login_test_01
+  url: /account/sLogin #路径
+  method: POST #方法
+  detail: 用户名正确，密码正确 #详情
+  headers: #请求头
+  data: #请求体
+    username: sq0777
+    password: xintian
+  resp:
+    code: 20000 #code
+    msg: 成功0
+
+
+- #login_test_02
+  url: /account/sLogin #路径
+  method: POST #方法
+  detail: 用户名正确，密码为空 #详情
+  headers: #请求头
+  data: #请求体
+    username: sq0777
+    password: "" #密码为空
+  resp:
+    code: 9999 #code
+    msg: 输入的密码错误!
+
+
