@@ -7,9 +7,9 @@
 # @Desc    : 淘宝首页
 import allure
 import pytest
-from pylib.web_UI_lib.pageObjects.commonPage import CommonPage
+from pylib.UIlib.pageObjects.basePage import BasePage
 
-class HomePage(CommonPage):
+class HomePage(BasePage):
     """
     首页
     """
@@ -17,7 +17,7 @@ class HomePage(CommonPage):
     def __init__(self):
         # 继承父类的__init__()构造方法
         super(HomePage, self).__init__()
-
+        pass
         # 1、顶部superbanner模块
         # 2、中部搜索模块，logo，热点搜索，二维码
         # 3、中部导航栏——主题市场模块
