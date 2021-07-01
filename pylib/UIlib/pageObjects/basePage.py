@@ -11,9 +11,9 @@ import time
 
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 from configs.web_env import TimeOut, PollFrequency
 from logs.logger import Logger
@@ -21,6 +21,7 @@ from pylib.UIlib.common.webDriver import Driver
 from utils.tools import get_dataTime
 
 logger = Logger(logger="BasePage").getlog()
+
 
 class BasePage:
     """
@@ -602,6 +603,7 @@ class BasePage:
     # 通过input标签上传文件
     def uploadFile_to_input(self, selector, path=uploadFilePath):
     """
+
     def uploadFile_to_input(self, selector, path=None):
         """
         通过input元素标签上传文件

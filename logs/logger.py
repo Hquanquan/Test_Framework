@@ -55,5 +55,3 @@ class Logger(object):
     # 获取logger
     def getlog(self):
         return self.logger
-
-

@@ -7,8 +7,9 @@
 # @Desc    : None
 import json
 
-from configs.api_env import TestCaseFilePath
 import xlrd
+
+from configs.api_env import TestCaseFilePath
 
 
 def get_excelDataByCaseName(sheetName, caseName, filePath=TestCaseFilePath):

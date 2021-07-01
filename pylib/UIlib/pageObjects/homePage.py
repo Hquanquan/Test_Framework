@@ -5,9 +5,8 @@
 # @File    : homePage.py
 # @Software: PyCharm
 # @Desc    : 淘宝首页
-import allure
-import pytest
 from pylib.UIlib.pageObjects.basePage import BasePage
+
 
 class HomePage(BasePage):
     """
@@ -35,7 +34,3 @@ class HomePage(BasePage):
         :return:
         """
         return self.get_url_title()
-
-
-
-

@@ -11,5 +11,3 @@
 TimeOut = 10
 # 显示等待轮询时间
 PollFrequency = 0.5
-
-

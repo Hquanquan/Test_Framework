@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Test_Framework.iml" filepath="$PROJECT_DIR$/.idea/Test_Framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../delivery_system/.idea/delivery_system.iml" filepath="$PROJECT_DIR$/../delivery_system/.idea/delivery_system.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../restapi_teach/.idea/restapi_teach.iml" filepath="$PROJECT_DIR$/../restapi_teach/.idea/restapi_teach.iml" />
     </modules>
   </component>
 </project>
