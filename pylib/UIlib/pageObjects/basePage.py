@@ -17,7 +17,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from configs.web_env import TimeOut, PollFrequency
 from logs.logger import Logger
-from pylib.web_UI_lib.common.webDriver import Driver
+from pylib.UIlib.common.webDriver import Driver
 from utils.tools import get_dataTime
 
 logger = Logger(logger="BasePage").getlog()

@@ -4,7 +4,7 @@
 # @File : webDriver.py 
 # @Author  : 黄权权
 # @Software: PyCharm
-# @Desc    : 驱动类，负责生成webdriver对象
+# @Desc    : 驱动类，负责生成webDriver对象
 import configparser
 
 from selenium import webdriver
@@ -16,7 +16,9 @@ logger = Logger(logger="myDriver").getlog()
 
 
 class Driver:
-
+    """
+    驱动类，负责生成webDriver对象
+    """
     # 实现单例模式
     # new方法--通过cls调用，调用new方法后生成对象
     def __new__(cls, *args, **kwargs):

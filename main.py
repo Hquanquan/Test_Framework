@@ -5,5 +5,7 @@
 # @Author  : 黄权权
 # @Software: PyCharm
 # @Desc    : 测试入口文件
+import pytest
 
-
+if __name__ == '__main__':
+    pytest.main(["-s", "-k test_test.py"])
