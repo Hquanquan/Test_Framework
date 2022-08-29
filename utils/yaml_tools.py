@@ -20,5 +20,17 @@ def read_yaml(filePath):
         content = f.read()
         # 把content转化为字典
         data = yaml.safe_load(content)
-        # 返回数据
+        # 返回字典类型数据
         return data
+
+
+def write_yaml(args, path):
+    """
+    写入数据到指定的yaml文件中
+    :param args:
+    :param path: path="configs/createCustomers.yaml"
+    :return:
+    """
+    with open(path, "w", encoding="utf-8") as f:
+        yaml.dump(args, f, allow_unicode=True)
+

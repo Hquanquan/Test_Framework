@@ -1,7 +1,7 @@
 #!/usr/bin/python3.8
 # -*- coding: utf-8 -*-
 # @Time    : 2020/12/4 14:47
-# @File : basePage.py
+# @File : basePage1.py
 # @Author  : 黄权权
 # @Software: PyCharm
 # @Desc    : 使用OP模式，硬编码手动为每个页面动态赋值元素属性
@@ -20,12 +20,13 @@ from logs.logger import Logger
 from pylib.UIlib.common.webDriver import Driver
 from utils.tools import get_dataTime
 
-logger = Logger(logger="BasePage").getlog()
+logger = Logger(__name__).getlog()
 
 
 class BasePage:
     """
-    BasePage 类，所有页面的基础类，所有的页面类都要继承该类
+    BasePage类，所有页面的基础类，所有的页面类都要继承该类
+    使用OP模式，硬编码手动为每个页面动态赋值元素属性
     """
 
     # 初始化 driver 对象
@@ -239,9 +240,11 @@ class BasePage:
         截图
         :return:
         """
-        file_path = os.path.abspath('.') + '\\screenshots\\'
+        # 获取当前工作目录
+        cur_work_dir = os.getcwd()
+        file_path = cur_work_dir + '\\screenshots\\'
         isExists = os.path.exists(file_path)
-        # print(f"截图位置：{file_path}")
+        print(f"截图位置：{file_path}")
         # 判断文件夹是否存在，如果不存在则创建。
         if not isExists:
             try:
@@ -418,24 +421,24 @@ class BasePage:
         # 获取当前窗口句柄
 
     # 获取当前窗口句柄
-    def current_window_handle(self):
+    def get_current_window_handle(self):
         """
         获取当前窗口句柄
         :return:
         """
         logger.info("%s Get the current window handle" % get_dataTime())
-        return self.driver.current_window_handle
+        return self.driver.get_current_window_handle
 
         # 获取所有窗口句柄
 
     # 获取所有窗口句柄
-    def window_handles(self):
+    def get_window_handles(self):
         """
         获取所有窗口句柄
         :return:
         """
         logger.info("%s Get all window handles" % get_dataTime())
-        return self.driver.window_handles
+        return self.driver.get_window_handles
 
         # 切换窗口
 
@@ -447,9 +450,9 @@ class BasePage:
         :return:
         """
         if window == "":
-            self.driver.switch_to_window(self.current_window_handle())
+            self.driver.switch_to.window(self.get_current_window_handle())
         else:
-            self.driver.switch_to_window(window)
+            self.driver.switch_to.window(window)
         logger.info("%s Switch the window" % get_dataTime())
 
         # 切换到当前最新打开的窗口
@@ -461,7 +464,7 @@ class BasePage:
         :return:
         """
         logger.info("%s Switch to the current latest window" % get_dataTime())
-        self.driver.switch_to.window(self.window_handles()[-1])
+        self.driver.switch_to.window(self.get_window_handles()[-1])
 
     # 切换到指定的iframe
     def switch_to_iframe(self, selector):
@@ -469,12 +472,23 @@ class BasePage:
         切换到指定的iframe
         :param selector: iframe的WebElement对象
         :return:
-        """
         iframe_object = self.find_element(selector)
         self.driver.switch_to.frame(iframe_object)
         logger.info("%s Switch to the iframe" % get_dataTime())
-
-        # 切换回默认的主界面
+"       """
+        """
+        切换到指定的iframe
+        :param selector: 可以是iframe的id,name,索引,元素定位表达式,如["id","myiframe"]
+        :return:
+        """
+        # 如果传入的是元素定位表达式，则先找到该元素，再切换到该iframe,
+        # 否则则是直接使用该iframe的唯一id，name，或者是索引
+        if isinstance(selector, list):
+            iframe_object = self.find_element(selector)
+            self.driver.switch_to.frame(iframe_object)
+        else:
+            self.driver.switch_to.frame(selector)
+        logger.info("%s Switch to the iframe" % get_dataTime())
 
     # 切换回默认的iframe
     def switch_to_default_content(self):
@@ -483,9 +497,7 @@ class BasePage:
         :return:
         """
         self.driver.switch_to.default_content()
-        # self.driver.switch_to_default_content()
-
-        # 切换到上级iframe
+        logger.info("%s Switch to the default iframe" % get_dataTime())
 
     # 切换到上级iframe
     def switch_to_parent_frame(self):
@@ -494,6 +506,7 @@ class BasePage:
         :return:
         """
         self.driver.switch_to.parent_frame()
+        logger.info("%s Switch to the parental iframe" % get_dataTime())
 
     # 刷新当前页面
     def refresh(self):
@@ -538,7 +551,7 @@ class BasePage:
         return self.driver.execute_async_script(js)
 
     # 获取sessionid
-    def get_sessionid(self):
+    def get_sessionId(self):
         """
         获取sessionid
         :return:
@@ -555,6 +568,7 @@ class BasePage:
         # cookie = self.driver.get_cookie("sessionId")
         # cookie = cookie["value"]
         # print(f"{cookies}")
+        logger.info("%s get sessionID: %s" % (get_dataTime(), sessionid))
         return sessionid
 
     # 获取token
@@ -568,10 +582,11 @@ class BasePage:
         # 一定要使用return，不然获取到的一直是None
         # get的Item不一定就叫token，得具体看目标系统把token存到哪个变量中
         token = self.driver.execute_script('return sessionStorage.getItem("token");')
+        logger.info("%s get token: %s" % (get_dataTime(), token))
         return token
 
     # 判断当前元素是否可见display
-    def isdispaly(self, selector):
+    def isDispaly(self, selector):
         """
         判断当前元素是否可见,可见返回True,不看见返回False
         :return:
@@ -593,10 +608,10 @@ class BasePage:
         flag = False
         try:
             self.find_element(selector)
-            logger.info("该元素已被找到，存在页面中")
+            logger.info(f"{get_dataTime()}该元素已被找到，存在页面中")
             flag = True
         except NoSuchElementException as e:
-            logger.info("该元素没有被找到，不存在页面中,原因: %s" % e)
+            logger.info(f"{get_dataTime()} 该元素没有被找到，不存在页面中,原因: %s" % e)
         return flag
 
     """
@@ -612,27 +627,30 @@ class BasePage:
         :return:
         """
         ele = self.find_element(selector)
+        logger.info(f"{get_dataTime()} 通过input元素标签上传文件，文件路径为：{path}")
         ele.send_keys(path)
 
     # 下拉框选择
-    def select_option(self, selector, index=None, value=None, text=None):
+    def select_option(self, selectors, index=None, value=None, text=None):
         """
-        下拉框选择,不输入参数时，默认选择第一个
-        :param selector:    select元素定位表达式
+        下拉框选择
+        :param selectors:    select元素定位表达式
         :param index:   index定位
         :param value:   value定位
         :param text:    文本属性定位
         :return:
         """
-        ele = self.find_element(selector)
+        # 先找到该下拉选择器
+        ele = self.find_element(selectors)
         if index:
             Select(ele).select_by_index(index).click()
+            logger.info(f"{get_dataTime()} 通过index索引点击下拉选择器的值，index索引值为：{index}")
         elif value:
             Select(ele).select_by_value(value).click()
+            logger.info(f"{get_dataTime()} 通过下拉选择器中value的值选择，value为：{index}")
         elif text:
             Select(ele).select_by_visible_text(text).click()
-        else:
-            Select(ele).select_by_index(0).click()
+            logger.info(f"{get_dataTime()} 通过下拉选择器中显示的文本值选择，文本值为：{index}")
 
     # 滑动滚动条，到达指定的元素
     def slidingScrollbar(self, target):
@@ -665,3 +683,4 @@ class BasePage:
             height = new_height
             time.sleep(2)
             new_height = self.execute_script(js)
+        logger.info(f"{get_dataTime()} 滑动页面至底部")

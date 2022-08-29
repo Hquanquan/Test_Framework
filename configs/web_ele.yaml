@@ -1,0 +1,8 @@
+BasePage:
+
+HomePage:
+  # 亲，请登录
+  nav_left_Login: ["xpath", '//*[@id="J_SiteNavLogin"]/div[1]/div[1]/a[1]']
+  # 退出登录按钮
+  logout_btn: [ "id","logout" ]
+

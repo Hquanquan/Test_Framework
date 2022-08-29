@@ -6,13 +6,15 @@
 # @Software: PyCharm
 # @Desc    : 驱动类，负责生成webDriver对象
 import configparser
+import webbrowser
 
 from selenium import webdriver
 
+from configs.web_env import Implicitly_Wait_Time
 from logs.logger import Logger
 from utils.tools import get_dataTime
 
-logger = Logger(logger="myDriver").getlog()
+logger = Logger(__name__).getlog()
 
 
 class Driver:
@@ -20,10 +22,11 @@ class Driver:
     驱动类，负责生成webDriver对象
     """
 
-    # 实现单例模式
+    # 实现单例模式,只打开一个浏览器
     # new方法--通过cls调用，调用new方法后生成对象
     def __new__(cls, *args, **kwargs):
-        # 判断该cls是否有对应的实例，hasattr() 函数用于判断对象是否包含对应的属性。如果对象有该属性返回 True，否则返回 False。
+        # 判断该cls是否有对应的实例，hasattr() 函数用于判断对象是否包含对应的属性。
+        # 如果对象有该属性返回 True，否则返回 False。
         if hasattr(cls, '_instance'):
             return cls._instance
         cls._instance = object.__new__(cls)  # 没有则创建对象
@@ -35,7 +38,8 @@ class Driver:
         只有第一次调用本函数会创建浏览器，然后返回浏览器驱动对象
         第二次及以后都会直接返回浏览器驱动对象，不会重复创建
         """
-        # 判断当前对象是否有driver属性，如果有直接返回，如果没有造一个再返回
+        # 判断当前对象是否有driver属性，如果有直接返回,并且不会继续执行下面的代码，
+        # 如果没有就执行后续代码造一个再返回
         if hasattr(self, 'driver'):
             return self.driver
 
@@ -61,6 +65,7 @@ class Driver:
         # 2、根据配置文件打开对应的浏览器和网站
         if browserName == "Chrome":
             self.driver = webdriver.Chrome(driverPath)
+            webbrowser.Chrome()
             logger.info('%s Starting Chorme browser!' % get_dataTime())
         elif browserName == "Firefox":
             # firefox火狐浏览器的驱动已安装在浏览器上，直接调用即可
@@ -80,8 +85,8 @@ class Driver:
             self.driver.get(url)
             logger.info("%s Open url %s " % (get_dataTime(), url))
             # 隐式等待10秒
-            self.driver.implicitly_wait(10)
-            logger.info("%s Set implicitly wait 10" % get_dataTime())
+            self.driver.implicitly_wait(Implicitly_Wait_Time)
+            logger.info(f"{get_dataTime()} Set implicitly wait {Implicitly_Wait_Time}s" )
 
             # 这里可以登录，进入系统首页再返回driver对象
             # cls.__login()

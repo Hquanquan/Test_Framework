@@ -7,7 +7,16 @@
 # @Desc    : webUI测试的环境变量设置
 
 
-# 显示等待超时时间
+import os
+
+# 显示等待超时时间 10秒
 TimeOut = 10
 # 显示等待轮询时间
 PollFrequency = 0.5
+
+# 隐式等待时间 10秒
+Implicitly_Wait_Time = 10
+
+# 文件上传时的文件路径
+uploadFilePath = r"E:\image.jpg"
+

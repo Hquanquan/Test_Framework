@@ -1,2 +1,10 @@
 # 放置 api接口测试的模板数据
 
+# 基类，不需要使用
+BaseAPI:
+  path: "/"
+  add: {}
+  edit: {}
+  delete: {}
+  list: {}
+
